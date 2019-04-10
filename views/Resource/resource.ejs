@@ -1,0 +1,93 @@
+<%include ../partials/header %>
+<div class="main-body section-gap">
+			<div class="container-padding">
+					<div class="container box_1170">
+						<div class="row align-items-center justify-content-between">
+							<div class="col-lg-6 col-md-6 col-sm-6" >
+									<h1 style="color: #0e102b ">Resources</h1>
+									<p></p>
+									<p></p>
+							</div>
+						</div>
+					</div>
+				</div>
+		<div class="container box_1170">
+			<div class="row">
+				
+				<div class="col-lg-8 post-list">
+
+					<section class="post-area">
+						<div class="row">
+							<%if(resources.length!=0)
+							for(var i=0; i<resources.length; i++) { %>
+							<div class="col-lg-6 col-md-6">
+								<div class="single-post-item">
+									<div class="post-thumb">
+										<img class="img-fluid" src="<%=resources[i].img.url%>" alt="">
+									</div>
+									<div class="post-details">
+										<h4><a href="/resources/view/<%= resources[i]._id%>"><%= resources[i].name%></a></h4>
+										<p>Author: <%= resources[i].author%></p>
+										<div class="blog-meta">
+											<a href="#" class="m-gap">Added by: <%= resources[i].user%></a>
+											<a href="#" class="m-gap"><span class="lnr lnr-bubble"></span>.</span></a>
+										</div>
+									</div>
+								</div>
+							</div><%}%>
+						</div>
+					</section>
+				</div>
+							
+				<div class="col-lg-4 sidebar">
+
+<% include ../partials/contestsidebar %>
+
+					<div class="single-widget category-widget">
+						<form class="form" action="/resources" method="post">
+							<h4 class="title">Type: </h4>
+							<ul>
+							<li>
+								<a href="#" class="justify-content-between align-items-center d-flex">
+									<p><label><input type="checkbox" value="book" name="type[]" style="margin-right: 30px;">Book</label></p>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="justify-content-between align-items-center d-flex">
+									<p><label><input type="checkbox" value="video" name="type[]" style="margin-right: 30px;">Video</label></p>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="justify-content-between align-items-center d-flex">
+									<p><label><input type="checkbox" value="article" name="type[]" style="margin-right: 30px;">Article</label></p>
+								</a>
+							</li>
+						</ul>
+							<h4 class="title">Category: </h4>
+							<ul>
+							<li>
+								<a href="#" class="justify-content-between align-items-center d-flex">
+									<p><label><input type="checkbox" value="web" name="category[]" style="margin-right: 30px;">web</label></p>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="justify-content-between align-items-center d-flex">
+									<p><label><input type="checkbox" value="android" name="category[]" style="margin-right: 30px;">android</label></p>
+								</a>
+							</li>
+							<li>
+								<a href="#" class="justify-content-between align-items-center d-flex">
+									<p><label><input type="checkbox" value="ml" name="category[]" style="margin-right: 30px;">ml</label></p>
+								</a>
+							</li>
+							
+						</ul>
+						<button type="submit" class="btn btn-default btn-xs btn-dark">Submit</button>
+					</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<% include ../partials/footer %>

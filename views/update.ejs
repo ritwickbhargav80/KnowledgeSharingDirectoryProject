@@ -1,0 +1,21 @@
+<% include ./partials/header %>
+<div class="col-sm-6 mx-auto">
+<div class="card">
+<h2 class="card-header">Update Note </h2>
+  <div class="card-body">
+    <h3 class="card-title">
+  <form class="form" action="/resources/update/<%= resources._id%>" method="post" enctype="multipart/form-data">
+  name: <input type="text" name="name" class="form-control" placeholder="aaa" value= "<%=resources.name%>" required autofocus><br>
+  author: <input type="text" name="author" class="form-control" placeholder="aaa" value= "<%=resources.author%>" required autofocus><br>
+
+  type: <input type="text" name="type" class="form-control" placeholder="aaa" value= "<%=resources.type%>" required autofocus><br>
+  category: <input type="text" name="category" class="form-control" placeholder="aaa" value= "<%=resources.category%>" required autofocus><br>
+  details: <input type="text" name="details" class="form-control" placeholder="aaa" value= "<%=resources.details%>" required autofocus><br>
+  <input type="file" class="form-control-file" name="image">
+  <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+    </h3>
+  </div>
+</div>
+</div>
+<% include ./partials/footer %>

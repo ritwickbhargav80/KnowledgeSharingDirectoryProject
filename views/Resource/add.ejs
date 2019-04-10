@@ -1,0 +1,56 @@
+	<%include ../partials/header%>
+
+	<!-- Start contact-page Area -->
+	<section class="contact-page-area section-gap">
+			<div class="container-padding">
+					<div class="container box_1170">
+						<div class="row align-items-center justify-content-between">
+							<div class="col-lg-6 col-md-6 col-sm-6" >
+									<h1 style="color: #0e102b ">Add Resources</h1>
+									<br>
+									<br>
+							</div>
+						</div>
+					</div>
+				</div>
+		<div class="container box_1170 ">
+			<div class="row">
+				<div class="col-lg-8">
+					<form class="form-area " id="myForm" action="/resources/add" method="post" class="contact-form text-right" enctype="multipart/form-data">
+						<div class="row">
+							<div class="col-lg-6 form-group">
+								<input name="name" placeholder="Type" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Type'"
+								 class="common-input mb-20 form-control" required="" type="text">
+
+								<input name="email" placeholder="Category" pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$"
+								 onfocus="this.placeholder = ''" onblur="this.placeholder = 'Category'" class="common-input mb-20 form-control"
+								 required="" type="email">
+
+								<input name="subject" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name'"
+								 class="common-input mb-20 form-control" required="" type="text">
+
+								 <input name="subject" placeholder="Author" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Author'"
+								 class="common-input mb-20 form-control" required="" type="text">
+
+								 <input name="image" placeholder="Author" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Author'"
+								 class="common-input mb-20 form-control" required="" type="file">
+
+
+							
+							<div class="col-lg-6 form-group"></div>
+								<textarea class="common-textarea form-control" name="Detail" placeholder="Detail" onfocus="this.placeholder = ''"
+								 onblur="this.placeholder = 'Detail'" required=""></textarea>
+							</div>
+							<div class="col-lg-12 d-flex justify-content-left">
+								<div class="alert-msg" style="text-align: left;"></div>
+								<button class="genric-btn primary circle text-uppercase" style="float: right;">Add Resource</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End contact-page Area -->
+
+	<%include ../partials/footer%>

@@ -1,0 +1,116 @@
+<% include ./partials/header %>
+    <div class="main" style="padding-bottom: 0px; padding-top: 60px; overflow: hidden;">
+
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <form method="POST" class="register-form" id="register-form" onSubmit = "return checkPassword(this);" action="/users/register">
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="name" id="name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Your Email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="field"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <select name="field" style="padding-left:50px; padding-right:35px; margin-left:20px;">
+                                  <option value="admin">Admin</option>
+                                  <option value="student">Student</option>
+                                </select>
+                            </div>
+                            <div class="form-group"> 
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="password" placeholder="Password" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="password2" id="password2" placeholder="Repeat your password" required>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0px;">
+                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term">
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register" style="margin-top: 5px;">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="/signup-image.jpg" alt="sign up image"></figure>
+                        <a href="/users/login" class="signup-image-link">I am already member</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JS -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+<% include ./partials/footer %>
+
+
+<!--<div class="row mt-5">
+  <div class="col-md-6 m-auto">
+    <div class="card card-body">
+      <h1 class="text-center mb-3">
+        <i class="fas fa-user-plus"></i> Register
+      </h1>
+      <% include ./partials/messages %>
+      <form action="/users/register" method="POST">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            type="name"
+            id="name"
+            name="name"
+            class="form-control"
+            placeholder="Enter Name"
+            value="<%= typeof name != 'undefined' ? name : '' %>"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            placeholder="Enter Email"
+            value="<%= typeof email != 'undefined' ? email : '' %>"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            placeholder="Create Password"
+            value="<%= typeof password != 'undefined' ? password : '' %>"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password2">Confirm Password</label>
+          <input
+            type="password"
+            id="password2"
+            name="password2"
+            class="form-control"
+            placeholder="Confirm Password"
+            value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">
+          Register
+        </button>
+      </form>
+      <p class="lead mt-4">Have An Account? <a href="/users/login">Login</a></p>
+    </div>
+  </div>
+</div>
