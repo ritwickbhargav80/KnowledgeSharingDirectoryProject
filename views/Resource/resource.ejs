@@ -2,6 +2,7 @@
 <div class="main-body section-gap">
 			<div class="container-padding">
 					<div class="container box_1170">
+					<%include ../partials/messages%>
 						<div class="row align-items-center justify-content-between">
 							<div class="col-lg-6 col-md-6 col-sm-6" >
 									<h1 style="color: #0e102b ">Resources</h1>
@@ -18,7 +19,7 @@
 
 					<section class="post-area">
 						<div class="row">
-							<%if(resources.length!=0)
+							<%if(resources.length!=0){
 							for(var i=0; i<resources.length; i++) { %>
 							<div class="col-lg-6 col-md-6">
 								<div class="single-post-item">
@@ -34,8 +35,9 @@
 										</div>
 									</div>
 								</div>
-							</div><%}%>
+							</div> <%}}%>
 						</div>
+						
 					</section>
 				</div>
 							

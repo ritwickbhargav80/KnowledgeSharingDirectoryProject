@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 const flash=require('connect-flash');
 const axios = require('axios');
-
+const cloudinary = require('cloudinary');
 require('dotenv').config();
 
 //image upload functionality
@@ -33,21 +33,11 @@ module.exports.view = (req, res)=>{
 	Resource.findOne({_id: req.params.id}).then(result=>{
 		Like.find({for: req.params.id}).then(likes=>{
 			Comment.find({for:req.params.id}).sort({date: 'desc'}).then(comments=>{
-				res.render('view.ejs', {resources: result, likes:likes, comments: comments});
+				res.render('Resource/view.ejs', {resources: result, likes:likes, comments: comments});
 			});
 		});
 	});
 };
-
-module.exports.searchtext = (req,res)=>{
-	var query = req.body.query;
-	if(query != ''){
-		Resource.find({$text: {$search: query}}).then(result=>{
-			res.render('dashboard', {resources: result});
-		})
-	}
-}
-
 
 module.exports.search = (req,res)=>{
     var category = req.body.category;
@@ -81,7 +71,8 @@ module.exports.like = (req,res)=>{
 	Like.create({user: req.user.id, for: req.params.id}, (err, done)=>{
 		if(err) throw err;
 		else{
-			return done;
+			req.flash('success_msg', 'liked!!');
+			res.redirect('back');
 		}
 	});
 }
@@ -90,20 +81,11 @@ module.exports.comment = (req,res)=>{
 	Comment.create({for: req.params.id, comment: req.body.comment, user: req.user.name}, (err, done)=>{
 		if(err) throw err;
 		else{
-		    return done;
+		    req.flash('success_msg', 'commented!');
+		    res.redirect('back');
 		}
 	});	
 }
-
-module.exports.deletecomment = (req,res)=>{
-	Comment.deleteOne({_id: req.params._id}, (err, done)=>{
-		if(err) throw err;
-		else{
-			return done;
-		}
-	});
-}
-
 
 module.exports.add = (req, res)=>{
 	Setting.find({for: 'resources'}).then(result=>{
@@ -136,7 +118,7 @@ module.exports.addprocess = (req,res)=>{
 			}
 			else{
 				req.flash('success_msg', 'Resource added successfully.');
-				res.redirect('/resources/add');
+				res.redirect('/resources');
 			}
 		});
 } 
@@ -144,22 +126,22 @@ module.exports.addprocess = (req,res)=>{
 module.exports.update = (req,res)=>{
 	Resource.findOne({_id: req.params.id}).then(result=>{
 		Setting.find({for: 'resources'}).then(setting=>{
-			res.render('update', {resources: result, settings: setting});
+			res.render('Resource/update', {resources: result, settings: setting});
 		});
 	});
 }
 
 module.exports.updateprocess = (req,res)=>{
-	cloudinary.v2.api.delete_resources([req.params.img.id], (error, result)=>{
-    	console.log(result);
-    });
     Resource.findOne({_id: req.params.id}).then(result=>{
-		result.type = req.body.type;
+    	cloudinary.v2.api.delete_resources([result.img.id], (error, done)=>{
+    	console.log(done);
+    });	
+    	result.type = req.body.type;
 		result.category = req.body.category;
         result.name = req.body.name;
 		result.author = req.body.author;
         result.details = req.body.details;
-		img = {id: req.file.public_id, url: req.file.url},
+		result.img = {id: req.file.public_id, url: req.file.url},
 		result.user = req.user.name;
 		result.save().then(result => {
 			req.flash('success_msg', 'Resource updated successfully.');
@@ -169,9 +151,11 @@ module.exports.updateprocess = (req,res)=>{
 }
 
 module.exports.delete = (req,res)=>{
-    cloudinary.v2.api.delete_resources([req.params.img.id], (error, result)=>{
-    	console.log(result);
-    });
+	Resource.findOne({_id: req.params.id}).then(result=>{
+	    cloudinary.v2.api.delete_resources([result.img.id], (error, done)=>{
+    	console.log(done);
+    });	
+	})
     Resource.deleteOne({_id: req.params.id}, (err, done) => {
         if(err){
 				req.flash('error_msg', 'Something went wrong.');
@@ -182,4 +166,11 @@ module.exports.delete = (req,res)=>{
 				res.redirect('/resources');
     	}
   	});
+}
+
+
+module.exports.all = (req,res)=>{
+	Resource.find().then(resource=>{
+		res.json(resource);
+	})
 }

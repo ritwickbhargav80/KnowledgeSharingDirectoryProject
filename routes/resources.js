@@ -14,12 +14,10 @@ router.get('/', authcheck.isLoggedIn, resourcesController.index);
 router.get('/view/:id', authcheck.isLoggedIn, resourcesController.view);
 //search
 router.post('/', authcheck.isLoggedIn, resourcesController.search);
-router.post('/search', authcheck.isLoggedIn, resourcesController.searchtext);
 //like
 router.get('/like/:id',authcheck.isLoggedIn, resourcesController.like);
  //comment
 router.post('/comment/:id', authcheck.isLoggedIn, resourcesController.comment);
-router.get('/delete-comment/:id', authcheck.isLoggedIn, resourcesController.deletecomment);
 //add resource route
 router.get('/add', authcheck.isAdmin, resourcesController.add);
 //add resource process
@@ -31,5 +29,6 @@ router.post('/update/:id',authcheck.isAdmin, imgupload.upload.single('image'), r
 //delete route
 router.get('/delete/:id', authcheck.isAdmin, resourcesController.delete);
 
+router.get('/all', resourcesController.all);
 //Export router
 module.exports=router;

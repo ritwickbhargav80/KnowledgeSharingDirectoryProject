@@ -12,7 +12,7 @@ module.exports.index = (req, res) => {
     Resource.find().sort({date: 'desc'}).then(resource=>{
     	Blog.find().sort({date: 'desc'}).then(blog=>{
     		axios.get('https://contesttrackerapi.herokuapp.com').then(response => {
-    			res.render('welcome', {
+    			res.render('index/welcome', {
     				resources: resource, 
     				blogs: blog, 
     				ongoing: response.data.result.ongoing, 
@@ -24,11 +24,11 @@ module.exports.index = (req, res) => {
 }
 
 module.exports.about = (req,res)=>{
-	res.render('about');
+	res.render('index/about');
 }
 
 module.exports.contact = (req,res)=>{
-	res.render('contact');
+	res.render('index/contact');
 }
 
 module.exports.sendmessage = (req, res)=>{

@@ -1,14 +1,6 @@
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contest</title>
-  <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-  <link href="../conteststyle.css" rel="stylesheet">
 
-</head>
-
-<body >
-<%include ../partials/navbar%>
+<%include ../partials/header%>
+<link href="../contest/conteststyle.css" rel="stylesheet">
   <h1 class="head">On Going Contest</h1>
     <div id="root">
 
@@ -19,22 +11,22 @@
               <h1> <%= res.Name %> </h1>
               <% var plat = res.Platform %>
                 <% if(plat === "HACKERRANK") { %>
-                  <span style="float: right; right: 0; padding: 0 16px;"><img src="../hackerrank.png" style="height: 60px;"></span>
+                  <span style="float: right; right: 0; padding: 0 16px;"><img src="../contest/hackerrank.png" style="height: 60px;"></span>
                 <% } %>
                 <% if(plat === "HACKEREARTH") { %> 
-                  <span style="float: right; right: 0; padding: 0 16px;"><img src="../hackerearth.jpg" style="height: 60px;"></span>
+                  <span style="float: right; right: 0; padding: 0 16px;"><img src="../contest/hackerearth.jpg" style="height: 60px;"></span>
                 <% } %>
                 <% if(plat === "CODECHEF") { %> 
-                  <span style="float: right; right: 0; padding: 0 16px;"><img src="../codechef.jpg" style="height: 60px;"></span>
+                  <span style="float: right; right: 0; padding: 0 16px;"><img src="../contest/codechef.jpg" style="height: 60px;"></span>
                 <% } %>
                 <% if(plat === "OTHER") { %> 
-                  <span style="float: right; right: 0; padding: 0 16px;"><img src="../other.png" style="height: 60px;"></span>
+                  <span style="float: right; right: 0; padding: 0 16px;"><img src="../contest/other.png" style="height: 60px;"></span>
                 <% } %>
                 <% if(plat === "TOPCODER") { %> 
-                  <span style="float: right; right: 0; padding: 0 16px;"><img src="../topcoder.jpg" style="height: 60px;"></span>
+                  <span style="float: right; right: 0; padding: 0 16px;"><img src="../contest/topcoder.jpg" style="height: 60px;"></span>
                 <% } %>
                 <% if(plat === "CODEFORCES") { %> 
-                  <span style="float: right; right: 0; padding: 0 16px;"><img src="../codeforces.jpg" style="height: 60px;"></span>
+                  <span style="float: right; right: 0; padding: 0 16px;"><img src="../contest/codeforces.jpg" style="height: 60px;"></span>
                 <% } %>
               <p> <%= `End Time-${res.EndTime}` %> </p>
             </a>
@@ -42,4 +34,4 @@
       </div>
 
  </div>
-    
+    <%include ../partials/footer%>

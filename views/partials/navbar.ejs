@@ -1,44 +1,38 @@
- <!-- Start header Area -->
+<section class="header-top">
+    <div class="container box_1170">
+      <div class="row align-items-center justify-content-between">
+      </div>
+    </div>
+  </section>
+
+  <!-- Start header Area -->
   <header id="header" style="padding: 0px; margin: 0px;">
     <div class="container box main-menu">
       <div class="row align-items-center justify-content-center d-flex ">
         <nav id="nav-menu-container">
           <ul class="nav-menu">
-            <li class="menu-active"><a href="/" style="font-size: 16px; font-family: 'Quicksand', sans-serif;">Home</a></li>
-            <li><a href="/blogs" style="font-size: 16px; font-family: 'Quicksand', sans-serif;">BLOGS</a></li>
-            <li><a href="/resources" style="font-size: 16px; font-family: 'Quicksand', sans-serif;">RESOURCES</a></li>
-            <li class="menu-has-children"><a href="#" style="font-size: 16px; margin-left: 5px; font-family: 'Quicksand', sans-serif;">CONTESTS</a>
+            <li class="menu-active"><a href="/" style="font-size: 16px;">HOME</a></li>
+            <li><a href="/blogs" style="font-size: 16px;">BLOGS</a></li>
+            <li><a href="/resources" style="font-size: 16px;">RESOURCES</a></li>
+            <li class="menu-has-children"><a href="" style="font-size: 16px; margin-left: 5px;">CONTESTS</a>
               <ul>
-                <li><a href="/contests/ongoing" style="font-size: 16px; font-family: 'Quicksand', sans-serif;">Ongoing</a></li>
-                <li><a href="/contests/upcoming" style="font-size: 16px; font-family: 'Quicksand', sans-serif;">Upcoming</a></li>
+              <li><a href="/contests/ongoing" style="font-size: 16px;">ONGOING</a></li>
+            <li><a href="/contests/upcoming" style="font-size: 16px;">UPCOMING</a></li>
               </ul>
             </li>
-            <li><a href="/contact" style="font-size: 16px; font-family: 'Quicksand', sans-serif;">Contact</a></li>
-            <%if(user && user.role=='admin'){%>
-             <li><a href="/admin" style="font-size: 16px; font-family: 'Quicksand', sans-serif;">Admin Dashboard</a></li>
-            <%}if(user){%>
-            <li><a href="/users/logout" style="font-size: 16px; font-family: 'Quicksand', sans-serif;">Logout</a></li>
-
-            <%}else{%>
-            <li><a href="/users/register" style="font-size: 16px; font-family: 'Quicksand', sans-serif;">Sign Up</a></li>
-            <li><a href="/users/login" style="font-size: 16px; font-family: 'Quicksand', sans-serif;">Login</a></li>
+            <li><a href="/contact" style="font-size: 16px;">CONTACT</a></li>
+            <% if(user && user.role=='admin'){ %>
+            <li><a href="/admin" style="font-size: 16px;">ADMIN DASHBOARD</a></li>
+            <%} if (user){ %>
+            <li><a href="/users/logout" style="font-size: 16px;">LOGOUT</a></li>
+            <%} else{ %>
+            <li><a href="/users/login" style="font-size: 16px;">LOGIN</a></li>
+            <li><a href="/users/register" style="font-size: 16px;">SIGNUP</a></li>
             <%}%>
-            <a href="#" class="search">
-            <i class="lnr lnr-magnifier" id="search" style="padding-left: 10px;"></i></a>
           </ul>
         </nav>
       </div>
     </div>
     
-    <div class="search_input" id="search_input_box">
-      <div class="container box_1170">
-        <form class="d-flex justify-content-between">
-                    <div style="padding-top: 5px; padding-bottom: 5px;">
-                    <input type="text" name="search" placeholder="Search here" class="" style="width: 500px; box-missing: border-box; border-radius: 10px; border-color: white; background-color: transparent; height: 35px; text-align: center; border-top-color: transparent; border-left-color: transparent; border-right-color: transparent;">
-                    <input type="submit" value="Search" class="" style="margin-left: 20px; padding-left: 20px; padding-bottom: 5px;padding-top: 5px;padding-right: 20px; border-radius: 10px; background-color: white; font-size: 16px;">
-                    </div>
-          <span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
-        </form>
-      </div>
-    </div>
+    
   </header>

@@ -15,8 +15,6 @@ const cors = require('cors');
 require('dotenv').config();
 require('./config/dbconnection');
 app.use(cors());
-//app.engine('html',require('ejs').renderFile);
-//app.set('view engine','html');
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({
     extended: true

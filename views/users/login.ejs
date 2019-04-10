@@ -1,16 +1,20 @@
-<%include ./head%>
+<%include ../partials/header%>
+ <link rel="stylesheet" href="/css/ustyle.css">
+ <link rel="stylesheet" href="/material-design-iconic-font.min.css">
 <div class="main" style="padding-bottom: 0px; padding-top: 100px;">
 
         <!-- Sing in  Form -->
         <section class="sign-in">
             <div class="container">
+            <%include ../partials/messages%>
                 <div class="signin-content">
                     <div class="signin-image">
-                        <figure><img src="/signin-image.jpg" alt="sign in image"></figure>
+                        <figure><img src="/img/signin-image.jpg" alt="sign in image"></figure>
                         <a href="/users/register" class="signup-image-link">Create an account</a>
                     </div>
 
                     <div class="signin-form">
+
                         <h2 class="form-title">Sign In</h2>
                         <form method="POST" class="register-form" id="login-form" action="/users/login">
                             <div class="form-group">
@@ -36,5 +40,5 @@
 
     </div>
 
-<%include ./footer%>
+<%include ../partials/footer%>
  

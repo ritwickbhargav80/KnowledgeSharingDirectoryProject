@@ -17,7 +17,7 @@ const storage = cloudinaryStorage({
 	cloudinary: cloudinary,
 	folder: process.env.CLOUDINARY_RESOURCE_FOLDER,
 	allowedFormat: ['jpg', 'jpeg', 'png'],
-	transformation: [{ width: 500, height: 500, crop: 'limit' }]
+	transformation: [{ width: 300, height: 300, crop: 'limit' }]
 });
 
 //multer upload cloudinary
