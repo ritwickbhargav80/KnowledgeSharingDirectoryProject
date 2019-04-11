@@ -15,7 +15,7 @@ module.exports ={
 
 	logggedInAlready:(req, res, next)=>{
         if(req.isAuthenticated())
-            res.redirect('/resources');  
+            res.redirect('/');  
         else
             return next();
     }

@@ -12,6 +12,7 @@ router.get('/about', indexController.about);
 router.get('/contact', indexController.contact);
 //contact us post
 router.post('/contact', indexController.sendmessage);
+router.get('/allmessage', indexController.allmessage);
 
 //export router
 module.exports = router;

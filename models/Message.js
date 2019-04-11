@@ -5,7 +5,7 @@ const MessagesSchema = mongoose.Schema({
 	subject: { type: String, required: true },
 	details: { type: String, required: true },
 	date: { type: Date, default: Date.now() },
-	status: { type: String, required: true }
+	status: { type: String, required: true, default: 'received' }
 });
 
 module.exports = Message = mongoose.model('Messages', MessagesSchema);
