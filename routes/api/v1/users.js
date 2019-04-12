@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 //controller
-const userController = require('../controllers/user_controller');
+const userController = require('../../../controllers/user_controller');
 //authcheck
-const authcheck = require('../config/authcheck');
+const authcheck = require('../../../config/authcheck');
 
 //register route
 router.get('/register',  authcheck.logggedInAlready, userController.register);

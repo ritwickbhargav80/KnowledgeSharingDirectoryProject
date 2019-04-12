@@ -2,11 +2,11 @@ const express=require('express');
 const router=express.Router();
 
 //controller
-const blogController = require('../controllers/blog_controller');
+const blogController = require('../../../controllers/blog_controller');
 
 //configurations
-const authcheck = require('../config/authcheck');
-const imgupload=require('../config/imgupload');
+const authcheck = require('../../../config/authcheck');
+const imgupload=require('../../../config/imgupload');
 
 //resources index router
 router.get('/', /*authcheck.isLoggedIn, */blogController.index);

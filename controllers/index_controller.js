@@ -12,7 +12,7 @@ module.exports.index = (req, res) => {
     Resource.find().sort({date: 'desc'}).then(resource=>{
     	Blog.find().sort({date: 'desc'}).then(blog=>{
     		axios.get('https://contesttrackerapi.herokuapp.com').then(response => {
-    			res.render('index/welcome', {
+    			res.json({
     				resources: resource, 
     				blogs: blog, 
     				ongoing: response.data.result.ongoing, 
@@ -24,15 +24,15 @@ module.exports.index = (req, res) => {
 }
 
 module.exports.about = (req,res)=>{
-	res.render('index/about');
+	res.json({message: '404'});
 }
 
 module.exports.contact = (req,res)=>{
-	res.render('index/contact');
+	res.json({message: '404'});
 }
 
 module.exports.sendmessage = (req, res)=>{
-	let {name, email, subject, details}= req.body;
+	let {name, email, subject, details} = req.body;
 	Message.create(req.body, (err, done)=>{
 		if(err) throw err;
 		else{

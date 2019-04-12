@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //Controllers
-const contestsController = require('../controllers/contests_controller');
+const contestsController = require('../../../controllers/contests_controller');
 
 //Ongoing Contests
 router.get('/ongoing', contestsController.ongoing);

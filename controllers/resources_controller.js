@@ -18,7 +18,7 @@ module.exports.index = (req,res)=>{
 	Resource.find().sort({date: 'desc'}).then(result=>{
 		Setting.find({for: 'resources'}).then(settings=>{
 			axios.get('https://contesttrackerapi.herokuapp.com').then(response => {
-			    res.render('Resource/index.ejs', {
+			    res.json({
 			    	resources: result, 
 			    	settings: settings,
 			    	ongoing: response.data.result.ongoing, 
@@ -33,7 +33,7 @@ module.exports.view = (req, res)=>{
 	Resource.findOne({_id: req.params.id}).then(result=>{
 		Like.find({for: req.params.id}).then(likes=>{
 			Comment.find({for:req.params.id}).sort({date: 'desc'}).then(comments=>{
-				res.render('Resource/view.ejs', {resources: result, likes:likes, comments: comments});
+				res.json({resources: result, likes:likes, comments: comments});
 			});
 		});
 	});
@@ -45,22 +45,22 @@ module.exports.search = (req,res)=>{
 
     if(category!=undefined && type!=undefined){
         Resource.find({category: {$in: category}, type: {$in: type} }).sort({date: 'desc'}).then(result=>{
-		res.render('Resource/index.ejs', {resources: result});
+		res.json({resources: result});
 	    });
     }
     else if(category!=undefined && type==undefined){
     	Resource.find({category: {$in: category}}).sort({date: 'desc'}).then(result=>{
-		res.render('Resource/index.ejs', {resources: result});
+		res.json({resources: result});
 	    });
     }
     else if(category==undefined && type!=undefined){
     	Resource.find({type: {$in: type}}).sort({date: 'desc'}).then(result=>{
-		res.render('Resource/index.ejs', {resources: result});
+		res.json({resources: result});
 	    });
     }
     else{
     	Resource.find().sort({date: 'desc'}).then(result=>{
-		res.render('Resource/index.ejs', {resources: result});
+		res.json({resources: result});
 	    });
     }
 };
@@ -89,7 +89,7 @@ module.exports.comment = (req,res)=>{
 
 module.exports.add = (req, res)=>{
 	Setting.find({for: 'resources'}).then(result=>{
-		res.render('Resource/add.ejs', {settings: result});
+		res.json({settings: result});
 	});
 };
 
@@ -126,7 +126,7 @@ module.exports.addprocess = (req,res)=>{
 module.exports.update = (req,res)=>{
 	Resource.findOne({_id: req.params.id}).then(result=>{
 		Setting.find({for: 'resources'}).then(setting=>{
-			res.render('Resource/update', {resources: result, settings: setting});
+			res.json({resources: result, settings: setting});
 		});
 	});
 }

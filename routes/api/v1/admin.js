@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 //Controllers
-const adminController = require('../controllers/admin_controller');
+const adminController = require('../../../controllers/admin_controller');
 
 //authcheck
-const authcheck = require('../config/authcheck');
+const authcheck = require('../../../config/authcheck');
 
 //index Router
 router.get('/', authcheck.isAdmin, adminController.index);
