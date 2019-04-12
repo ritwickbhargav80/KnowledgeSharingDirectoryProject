@@ -33,10 +33,17 @@ module.exports.contact = (req,res)=>{
 
 module.exports.sendmessage = (req, res)=>{
 	let {name, email, subject, details}= req.body;
-	Message.create({name: name, email: email, subject: subject, details: details}, (err, done)=>{
+	Message.create(req.body, (err, done)=>{
 		if(err) throw err;
 		else{
 			req.flash('success_msg', 'Your message has been submitted successfully.');
+            res.redirect('back');
 		}
 	})
+}
+
+module.exports.allmessage = (req,res)=>{
+    Message.find().sort({date: 'desc'}).then(messages=>{
+        res.json(messages);
+    })
 }

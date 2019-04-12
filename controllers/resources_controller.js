@@ -18,7 +18,7 @@ module.exports.index = (req,res)=>{
 	Resource.find().sort({date: 'desc'}).then(result=>{
 		Setting.find({for: 'resources'}).then(settings=>{
 			axios.get('https://contesttrackerapi.herokuapp.com').then(response => {
-			    res.render('Resource/resource.ejs', {
+			    res.render('Resource/index.ejs', {
 			    	resources: result, 
 			    	settings: settings,
 			    	ongoing: response.data.result.ongoing, 
@@ -45,22 +45,22 @@ module.exports.search = (req,res)=>{
 
     if(category!=undefined && type!=undefined){
         Resource.find({category: {$in: category}, type: {$in: type} }).sort({date: 'desc'}).then(result=>{
-		res.render('Resource/resource.ejs', {resources: result});
+		res.render('Resource/index.ejs', {resources: result});
 	    });
     }
     else if(category!=undefined && type==undefined){
     	Resource.find({category: {$in: category}}).sort({date: 'desc'}).then(result=>{
-		res.render('Resource/resource.ejs', {resources: result});
+		res.render('Resource/index.ejs', {resources: result});
 	    });
     }
     else if(category==undefined && type!=undefined){
     	Resource.find({type: {$in: type}}).sort({date: 'desc'}).then(result=>{
-		res.render('Resource/resource.ejs', {resources: result});
+		res.render('Resource/index.ejs', {resources: result});
 	    });
     }
     else{
     	Resource.find().sort({date: 'desc'}).then(result=>{
-		res.render('Resource/resource.ejs', {resources: result});
+		res.render('Resource/index.ejs', {resources: result});
 	    });
     }
 };
@@ -97,11 +97,11 @@ module.exports.addprocess = (req,res)=>{
     const {type,category,name,author,details}=req.body;
     if(!type || !category || !name || !author || !details){
     	req.flash('error_msg', 'All fields compulsary.');
-    	res.redirect('/resources/add');
+    	res.redirect('back');
     }
     if(!req.file.url){	
 		req.flash('error_msg', 'Please upload an image.');
-    	res.redirect('/resources/add');    	
+    	res.redirect('back');    	
     }
     Resource.create({
 		type: req.body.type,
@@ -114,11 +114,11 @@ module.exports.addprocess = (req,res)=>{
 	    }, (err, done) => {
 			if(err){
 				req.flash('error_msg', 'Something went wrong.');
-				res.redirect('/resources/add');
+				res.redirect('back');
 			}
 			else{
 				req.flash('success_msg', 'Resource added successfully.');
-				res.redirect('/resources');
+				res.redirect('back');
 			}
 		});
 } 
@@ -145,7 +145,7 @@ module.exports.updateprocess = (req,res)=>{
 		result.user = req.user.name;
 		result.save().then(result => {
 			req.flash('success_msg', 'Resource updated successfully.');
-			res.redirect('/resources'); 
+			res.redirect('back'); 
        });
 	});
 }
@@ -159,11 +159,11 @@ module.exports.delete = (req,res)=>{
     Resource.deleteOne({_id: req.params.id}, (err, done) => {
         if(err){
 				req.flash('error_msg', 'Something went wrong.');
-				res.redirect('/resources');
+				res.redirect('back');
 		}
     	else{
 				req.flash('success_msg', 'Resource deleted successfully.');
-				res.redirect('/resources');
+				res.redirect('back');
     	}
   	});
 }

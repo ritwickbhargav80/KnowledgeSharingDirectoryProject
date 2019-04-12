@@ -1,38 +1,54 @@
-<section class="header-top">
-    <div class="container box_1170">
-      <div class="row align-items-center justify-content-between">
-      </div>
-    </div>
-  </section>
+   <nav class="navbar navbar-expand-lg navbar-light bg-light" style="box-shadow: 2px 0px 6px #707070; background: #fff!important;">
+        <div class="container">
+            <a class="navbar-brand" style="font-weight: 700;" href="#">college knowledge</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <!-- <span class="navbar-toggler-icon"></span> -->
+                <i class="fa fa-bars"></i>
+            </button>
 
-  <!-- Start header Area -->
-  <header id="header" style="padding: 0px; margin: 0px;">
-    <div class="container box main-menu">
-      <div class="row align-items-center justify-content-center d-flex ">
-        <nav id="nav-menu-container">
-          <ul class="nav-menu">
-            <li class="menu-active"><a href="/" style="font-size: 16px;">HOME</a></li>
-            <li><a href="/blogs" style="font-size: 16px;">BLOGS</a></li>
-            <li><a href="/resources" style="font-size: 16px;">RESOURCES</a></li>
-            <li class="menu-has-children"><a href="" style="font-size: 16px; margin-left: 5px;">CONTESTS</a>
-              <ul>
-              <li><a href="/contests/ongoing" style="font-size: 16px;">ONGOING</a></li>
-            <li><a href="/contests/upcoming" style="font-size: 16px;">UPCOMING</a></li>
-              </ul>
-            </li>
-            <li><a href="/contact" style="font-size: 16px;">CONTACT</a></li>
-            <% if(user && user.role=='admin'){ %>
-            <li><a href="/admin" style="font-size: 16px;">ADMIN DASHBOARD</a></li>
-            <%} if (user){ %>
-            <li><a href="/users/logout" style="font-size: 16px;">LOGOUT</a></li>
-            <%} else{ %>
-            <li><a href="/users/login" style="font-size: 16px;">LOGIN</a></li>
-            <li><a href="/users/register" style="font-size: 16px;">SIGNUP</a></li>
-            <%}%>
-          </ul>
-        </nav>
-      </div>
-    </div>
-    
-    
-  </header>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto nav justify-content-end custom_nav" style="width: 100%;">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/blogs">Blogs</a>
+                    </li>
+                     <li class="nav-item dropdown">
+                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             Contests
+                         </a>
+                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                             <a class="dropdown-item" href="/Contests/upcoming">Upcoming Contests</a>
+                             <div class="dropdown-divider"></div>
+                             <a class="dropdown-item" href="/contests/ongoing">Ongoing Contests</a>
+                         </div>
+                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/resources">Resources</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">Contact</a>
+                    </li>
+                    <% if(user && user.role=='admin'){ %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">Admin Dashboard</a>
+                    </li>
+                    <%} if (user){ %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/logout">Sign Out</a>
+                    </li>
+                    <%} else{ %>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/login">Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/register">Sign Up</a>
+                    </li>
+                    <%}%>
+                </ul>
+            </div>
+        </div>
+    </nav>
