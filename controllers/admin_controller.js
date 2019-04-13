@@ -11,14 +11,14 @@ const Message = require('../models/Message');
 module.exports.index = (req, res)=>{
 	Message.find().then(message=>{
 		User.find().then(user=>{
-			res.render('admindashboard', {messages: message, users: user});
+			res.json('admindashboard', {messages: message, users: user});
 		});
 	});
 }
 
 module.exports.users = (req,res)=>{
 	User.find().sort({role: 'asc'}).then(result=>{
-	    res.render('viewusers', {users: result});		
+	    res.json('viewusers', {users: result});		
 	});
 }
 /*
@@ -34,7 +34,7 @@ module.exports.deleteuser = (req,res)=>{
 */
 module.exports.settings = (req,res)=>{
 	Setting.find().then(result=>{
-		res.render('settings', {settings: result});	
+		res.json('settings', {settings: result});	
 	});
 }
 

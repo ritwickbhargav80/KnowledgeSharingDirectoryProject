@@ -9,7 +9,7 @@ const User = require('../models/User');
 
 
 module.exports.register = (req, res) =>{
-	res.render('users/register');
+	res.json('users/register');
 } 
 
 
@@ -26,12 +26,12 @@ module.exports.registerprocess = (req, res) => {
     errors.push('Password must be at least 6 characters');
   }
   if (errors.length > 0) {
-    res.render('users/register', { error: errors });
+    res.json('users/register', { error: errors });
   } else {
     User.findOne({ email: email }).then(user => {
       if (user) {
         errors.push('Email already exists');
-        res.render('users/register', { error:errors });
+        res.json('users/register', { error:errors });
       } else {
         const newUser = new User({name: name.toUpperCase(), email, role: field, password });
         bcrypt.genSalt(10, (err, salt) => {
@@ -50,7 +50,7 @@ module.exports.registerprocess = (req, res) => {
 }
 
 module.exports.login = (req,res)=>{
-	res.render('users/login');
+	res.json('users/login');
 }
 
 module.exports.loginprocess = (req, res, next) => {
