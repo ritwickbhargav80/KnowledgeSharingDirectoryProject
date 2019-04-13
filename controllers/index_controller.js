@@ -36,8 +36,8 @@ module.exports.sendmessage = (req, res)=>{
 	Message.create(req.body, (err, done)=>{
 		if(err) throw err;
 		else{
-			req.flash('success_msg', 'Your message has been submitted successfully.');
-            res.redirect('back');
+			req.json({message: 'Your message has been submitted successfully.'});
+            //res.redirect('back');
 		}
 	})
 }

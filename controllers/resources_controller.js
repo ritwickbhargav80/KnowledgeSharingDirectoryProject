@@ -67,8 +67,8 @@ module.exports.like = (req,res)=>{
 	Like.create({user: req.user.id, for: req.params.id}, (err, done)=>{
 		if(err) throw err;
 		else{
-			req.flash('success_msg', 'liked!!');
-			res.redirect('back');
+			req.json({message: 'success_msg', 'liked!!'});
+			//res.redirect('back');
 		}
 	});
 }
@@ -77,8 +77,8 @@ module.exports.comment = (req,res)=>{
 	Comment.create({for: req.params.id, comment: req.body.comment, user: req.user.name}, (err, done)=>{
 		if(err) throw err;
 		else{
-		    req.flash('success_msg', 'commented!');
-		    res.redirect('back');
+		    req.json({message: 'success_msg', 'commented!'});
+		    //res.redirect('back');
 		}
 	});	
 }
@@ -109,12 +109,12 @@ module.exports.addprocess = (req,res)=>{
 		user: req.user.name
 	    }, (err, done) => {
 			if(err){
-				req.flash('error_msg', 'Something went wrong.');
-				res.redirect('back');
+				req.({message: 'Something went wrong.'});
+				//res.redirect('back');
 			}
 			else{
-				req.flash('success_msg', 'Resource added successfully.');
-				res.redirect('back');
+				req.({message:  'Resource added successfully.'});
+				//res.redirect('back');
 			}
 		});
 } 
@@ -140,8 +140,8 @@ module.exports.updateprocess = (req,res)=>{
 		result.img = {id: req.file.public_id, url: req.file.url},
 		result.user = req.user.name;
 		result.save().then(result => {
-			req.flash('success_msg', 'Resource updated successfully.');
-			res.redirect('back'); 
+			req.json({message: 'Resource updated successfully.'});
+			//res.redirect('back'); 
        });
 	});
 }
@@ -154,12 +154,12 @@ module.exports.delete = (req,res)=>{
 	})
     Resource.deleteOne({_id: req.params.id}, (err, done) => {
         if(err){
-				req.flash('error_msg', 'Something went wrong.');
-				res.redirect('back');
+				req.json({message: 'Something went wrong.'});
+				//res.redirect('back');
 		}
     	else{
-				req.flash('success_msg', 'Resource deleted successfully.');
-				res.redirect('back');
+				req.json({message: 'Resource deleted successfully.'});
+				//res.redirect('back');
     	}
   	});
 }

@@ -56,8 +56,7 @@ module.exports.like = (req,res)=>{
 	Like.create({user: req.user.id, for: req.params.id}, (err, done)=>{
 		if(err) throw err;
 		else{
-			req.flash('success_msg', 'liked!!');
-			res.redirect('back');
+			req.json({message: 'liked!!'});
 		}
 	});
 }
@@ -66,8 +65,8 @@ module.exports.comment = (req,res)=>{
 	Comment.create({for: req.params.id, comment: req.body.comment, user: req.user.name}, (err, done)=>{
 		if(err) throw err;
 		else{
-		    req.flash('success_msg', 'commented!');
-		    res.redirect('back');
+		    req.json({message: 'commented!'});
+		
 		}
 	});	
 }
@@ -81,12 +80,12 @@ module.exports.add = (req, res)=>{
 module.exports.addprocess = (req,res)=>{
     const {type,category,name,author,details}=req.body;
     if(!category || !title  || !details){
-    	req.flash('error_msg', 'All fields compulsary.');
-    	res.redirect('back');
+    	req.json({message: 'All fields compulsary.'});
+ 
     }
     if(!req.file.url){	
-		req.flash('error_msg', 'Please upload an image.');
-    	res.redirect('back');    	
+		req.json({message: 'Please upload an image.'});
+     	
     }
     Blog.create({
 		category: req.body.category,
@@ -96,12 +95,12 @@ module.exports.addprocess = (req,res)=>{
 		user: req.user.name
 	    }, (err, done) => {
 			if(err){
-				req.flash('error_msg', 'Something went wrong.');
-				res.redirect('back');
+				req.json({message: 'Something went wrong.'});
+
 			}
 			else{
-				req.flash('success_msg', 'Blog added successfully.');
-				res.redirect('back');
+				req.json({message: 'Blog added successfully.'});
+
 			}
 		});
 } 
@@ -125,8 +124,7 @@ module.exports.updateprocess = (req,res)=>{
 		result.img = {id: req.file.public_id, url: req.file.url},
 		result.user = req.user.name;
 		result.save().then(result => {
-			req.flash('success_msg', 'Blog updated successfully.');
-			res.redirect('back'); 
+			req.json({message: 'Blog updated successfully.'}); 
        });
 	});
 }
@@ -139,12 +137,12 @@ module.exports.delete = (req,res)=>{
 	})
     Blog.deleteOne({_id: req.params.id}, (err, done) => {
         if(err){
-				req.flash('error_msg', 'Something went wrong.');
-				res.redirect('back');
+				req.json({message: 'Something went wrong.'});
+
 		}
     	else{
-				req.flash('success_msg', 'Blog deleted successfully.');
-				res.redirect('back');
+				req.json({message: 'Blog deleted successfully.'});
+
     	}
   	});
 }

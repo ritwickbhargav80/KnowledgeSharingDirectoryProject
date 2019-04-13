@@ -8,9 +8,9 @@ const User = require('../models/User');
 const Setting = require('../models/Setting');
 const Message = require('../models/Message');
 
-module.exports.login = (req,res)=>{
-	res.render('admin/login');
-}
+//module.exports.login = (req,res)=>{
+	//res.render('admin/login');
+//}
 
 module.exports.loginpost = (req, res, next) => {
   passport.authenticate('local', {
@@ -54,18 +54,18 @@ module.exports.addsetting = (req,res)=>{
 	Setting.findOne({for: req.body.for, value: req.body.value}, (err, entry)=>{
 		if(err) throw err;
 		if(entry){
-			req.flash('error_msg', 'Already Entered!');
-			res.redirect('/admin/settings');
+			req.json({message: 'Already Entered!'});
+			//res.redirect('/admin/settings');
 		}
 		else{
 			Setting.create({ for: req.body.for, field: req.body.field, value: req.body.value }, (err, done) => {
 			if(err){
-				req.flash('error_msg', 'Something went wrong.');
-				res.redirect('/admin/settings');
+				req.json({message: 'Something went wrong.'});
+				//res.redirect('/admin/settings');
 			}
 			else{
-				req.flash('success_msg', 'Added successfully.');
-				res.redirect('/admin/settings');
+				req.json({message: 'Added successfully.'});
+				//res.redirect('/admin/settings');
 			}
 		});
 	    }
@@ -78,12 +78,12 @@ module.exports.deletesetting = (req,res)=>{
 		else{
 			Setting.deleteOne({ _id: req.params.id}, (err, done) => {
 			if(err){
-				req.flash('error_msg', 'Something went wrong.');
-				res.redirect('/admin/settings');
+				req.json({message: 'Something went wrong.'});
+				//res.redirect('/admin/settings');
 			}
 			else{
-				req.flash('success_msg', 'Deleted successfully.');
-				res.redirect('/admin/settings');
+				req.json({message: 'Deleted successfully.'});
+				//res.redirect('/admin/settings');
 			}
 		});
 		}
