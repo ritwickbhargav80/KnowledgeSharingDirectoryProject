@@ -18,7 +18,7 @@ module.exports.index = (req,res)=>{
 	Blog.find().sort({date: 'desc'}).then(result=>{
 		Setting.find({for: 'blogs'}).then(settings=>{
 			axios.get('https://contesttrackerapi.herokuapp.com').then(response => {
-			    res.render('Blog/index.ejs', {
+			    res.json({
 			    	blogs: result, 
 			    	settings: settings,
 			    	ongoing: response.data.result.ongoing, 
@@ -33,7 +33,7 @@ module.exports.view = (req, res)=>{
 	Blog.findOne({_id: req.params.id}).then(result=>{
 		Like.find({for: req.params.id}).then(likes=>{
 			Comment.find({for:req.params.id}).sort({date: 'desc'}).then(comments=>{
-				res.render('Blog/view.ejs', {blogs: result, likes:likes, comments: comments});
+				res.json({blogs: result, likes:likes, comments: comments});
 			});
 		});
 	});
@@ -44,12 +44,12 @@ module.exports.search = (req,res)=>{
 
     if(category!=undefined){
         Blog.find({category: {$in: category}}).sort({date: 'desc'}).then(result=>{
-		res.render('Blog/index.ejs', {blogs: result});
+		res.json({blogs: result});
 	    });
     }
     else{
     	Blog.find().sort({date: 'desc'}).then(result=>{
-		res.render('Blog/index.ejs', {blogs: result});
+		res.json({blogs: result});
 	    });
     }
 };
@@ -78,7 +78,7 @@ module.exports.comment = (req,res)=>{
 
 module.exports.add = (req, res)=>{
 	Setting.find({for: 'blogs'}).then(result=>{
-		res.render('Blog/add.ejs', {settings: result});
+		res.json({settings: result});
 	});
 };
 
@@ -113,7 +113,7 @@ module.exports.addprocess = (req,res)=>{
 module.exports.update = (req,res)=>{
 	Blog.findOne({_id: req.params.id}).then(result=>{
 		Setting.find({for: 'blogs'}).then(setting=>{
-			res.render('Blog/update', {blogs: result, settings: setting});
+			res.json({blogs: result, settings: setting});
 		});
 	});
 }
@@ -152,7 +152,6 @@ module.exports.delete = (req,res)=>{
     	}
   	});
 }
-
 
 module.exports.all = (req,res)=>{
 	Blog.find().then(blog=>{
