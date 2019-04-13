@@ -32,7 +32,7 @@ module.exports.contact = (req,res)=>{
 }
 
 module.exports.sendmessage = (req, res)=>{
-	let {name, email, subject, details} = req.body;
+	let {name, email, phone, message} = req.body;
 	Message.create(req.body, (err, done)=>{
 		if(err) throw err;
 		else{

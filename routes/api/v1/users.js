@@ -7,13 +7,14 @@ const userController = require('../../../controllers/user_controller');
 const authcheck = require('../../../config/authcheck');
 
 //register route
-router.get('/register',  authcheck.logggedInAlready, userController.register);
+//router.get('/register',  authcheck.logggedInAlready, userController.register);
 //register process
-router.post('/register',  authcheck.logggedInAlready, userController.registerprocess);
+//router.post('/register',  authcheck.logggedInAlready, userController.registerprocess);
 //login route
-router.get('/login', authcheck.logggedInAlready, userController.login);
-//login process
-router.post('/login', authcheck.logggedInAlready, userController.loginprocess);
+router.get('/login', passport.authenticate('google', {scope: ['profile', 'email']}));
+router.get('/login/callback', passport.authenticate('google', { failureRedirect: '/' }),(req, res) => {
+    res.redirect('/');
+  });
 //logout route
 router.get('/logout',  userController.logout);
 

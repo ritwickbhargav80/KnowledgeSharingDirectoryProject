@@ -17,14 +17,10 @@ const Setting = require('../models/Setting');
 module.exports.index = (req,res)=>{
 	Resource.find().sort({date: 'desc'}).then(result=>{
 		Setting.find({for: 'resources'}).then(settings=>{
-			axios.get('https://contesttrackerapi.herokuapp.com').then(response => {
 			    res.json({
 			    	resources: result, 
 			    	settings: settings,
-			    	ongoing: response.data.result.ongoing, 
-    				upcoming: response.data.result.upcoming
 			    });
-			});
 		});
 	});
 };

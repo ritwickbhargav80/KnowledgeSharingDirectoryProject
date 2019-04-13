@@ -7,7 +7,10 @@ const adminController = require('../../../controllers/admin_controller');
 //authcheck
 const authcheck = require('../../../config/authcheck');
 
-//index Router
+//admin login
+router.get('/login', authcheck.logggedInAlready, adminController.login);
+router.post('/login', adminController.loginpost);
+//index Router-admin dashboard
 router.get('/', authcheck.isAdmin, adminController.index);
 //Users mgmt
 router.get('/users', authcheck.isAdmin, adminController.users);

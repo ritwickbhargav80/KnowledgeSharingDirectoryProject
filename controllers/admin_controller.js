@@ -8,6 +8,18 @@ const User = require('../models/User');
 const Setting = require('../models/Setting');
 const Message = require('../models/Message');
 
+module.exports.login = (req,res)=>{
+	res.render('admin/login');
+}
+
+module.exports.loginpost = (req, res, next) => {
+  passport.authenticate('local', {
+    successRedirect: '/resources',
+    failureRedirect: '/users/login',
+    failureFlash: true
+  })(req, res, next);
+}
+
 module.exports.index = (req, res)=>{
 	Message.find().then(message=>{
 		User.find().then(user=>{

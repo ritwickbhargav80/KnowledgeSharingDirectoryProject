@@ -7,7 +7,7 @@ require('dotenv').config();
 //load user model
 const User = require('../models/User');
 
-
+/*
 module.exports.register = (req, res) =>{
 	res.json('users/register');
 } 
@@ -49,6 +49,7 @@ module.exports.registerprocess = (req, res) => {
   }
 }
 
+
 module.exports.login = (req,res)=>{
 	res.json('users/login');
 }
@@ -60,9 +61,9 @@ module.exports.loginprocess = (req, res, next) => {
     failureFlash: true
   })(req, res, next);
 }
-
+*/
 module.exports.logout = (req, res) => {
   req.logout();
   req.flash('success_msg', 'You are logged out');
-  res.redirect('/users/login');
+  res.redirect('/');
 };
