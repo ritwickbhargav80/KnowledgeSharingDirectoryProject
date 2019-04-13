@@ -21,9 +21,9 @@ router.post('/comment/:id', authcheck.isLoggedIn, resourcesController.comment);
 //add resource route
 router.get('/add', authcheck.isAdmin, resourcesController.add);
 //add resource process
-router.post('/add', authcheck.isAdmin, imgupload.upload.single('image'), rosurcesController.addprocess);
+router.post('/add', authcheck.isAdmin, imgupload.upload.single('image'), resourcesController.addprocess);
 //update route
-router.get('/update/:id', authcheck.isAdmin resourcesController.update);
+router.get('/update/:id', authcheck.isAdmin, resourcesController.update);
 //update process
 router.post('/update/:id',authcheck.isAdmin, imgupload.upload.single('image'), resourcesController.updateprocess);
 //delete route

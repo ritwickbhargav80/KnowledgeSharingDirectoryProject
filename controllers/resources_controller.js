@@ -67,8 +67,7 @@ module.exports.like = (req,res)=>{
 	Like.create({user: req.user.id, for: req.params.id}, (err, done)=>{
 		if(err) throw err;
 		else{
-			req.json({message: 'success_msg', 'liked!!'});
-			//res.redirect('back');
+			req.json({message: 'you like the resource'});
 		}
 	});
 }
@@ -77,8 +76,7 @@ module.exports.comment = (req,res)=>{
 	Comment.create({for: req.params.id, comment: req.body.comment, user: req.user.name}, (err, done)=>{
 		if(err) throw err;
 		else{
-		    req.json({message: 'success_msg', 'commented!'});
-		    //res.redirect('back');
+		    req.json({message: 'user commented'});
 		}
 	});	
 }
@@ -109,12 +107,10 @@ module.exports.addprocess = (req,res)=>{
 		user: req.user.name
 	    }, (err, done) => {
 			if(err){
-				req.({message: 'Something went wrong.'});
-				//res.redirect('back');
+				req.json({message: 'Something went wrong.'});
 			}
 			else{
-				req.({message:  'Resource added successfully.'});
-				//res.redirect('back');
+				req.json({message:  'Resource added successfully.'});
 			}
 		});
 } 
