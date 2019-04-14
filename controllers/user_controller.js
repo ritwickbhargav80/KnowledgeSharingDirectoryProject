@@ -1,54 +1,65 @@
-const bcrypt = require('bcryptjs');
-const passport = require('passport');
-const mongoose = require('mongoose');
+const bcrypt = require("bcryptjs");
+const passport = require("passport");
+const mongoose = require("mongoose");
 
-require('dotenv').config();
+require("dotenv").config();
 
 //load user model
-const User = require('../models/User');
+const User = require("../models/User");
+const Admin = require("../models/Admin");
 
 /*
 module.exports.register = (req, res) =>{
 	res.json('users/register');
-} 
+}
 
 
 module.exports.registerprocess = (req, res) => {
-  const { name, email,field, password, password2 } = req.body;  
+  const { name, email, field, password, password2 } = req.body;
   let errors = [];
-  if (!name || !email || !password || !password2) {
-    errors.push('Please enter all fields' );
+  if (!email || !password || !password2) {
+    errors.push("Please enter all fields");
   }
   if (password != password2) {
-    errors.push('Passwords do not match');
+    errors.push("Passwords do not match");
   }
   if (password.length < 6) {
-    errors.push('Password must be at least 6 characters');
+    errors.push("Password must be at least 6 characters");
   }
   if (errors.length > 0) {
-    res.json('users/register', { error: errors });
+    res.json("users/register", { error: errors });
   } else {
     User.findOne({ email: email }).then(user => {
       if (user) {
-        errors.push('Email already exists');
-        res.json('users/register', { error:errors });
+        errors.push("Email already exists");
+        res.json("users/register", { error: errors });
       } else {
-        const newUser = new User({name: name.toUpperCase(), email, role: field, password });
+        const newUser = new Admin({
+          email,
+          role: field,
+          password: password
+        });
+        console.log(newUser);
         bcrypt.genSalt(10, (err, salt) => {
           bcrypt.hash(newUser.password, salt, (err, hash) => {
             if (err) throw err;
             newUser.password = hash;
-            newUser.save().then(user => {
-                req.flash('success_msg', 'You are now registered and can log in');
-                res.redirect('back');
-            }).catch(err => console.log(err));
+            newUser
+              .save()
+              .then(user => {
+                req.flash(
+                  "success_msg",
+                  "You are now registered and can log in"
+                );
+                res.redirect("back");
+              })
+              .catch(err => console.log(err));
           });
         });
       }
     });
   }
-}
-
+};
 
 module.exports.login = (req,res)=>{
 	res.json('users/login');
@@ -64,6 +75,6 @@ module.exports.loginprocess = (req, res, next) => {
 */
 module.exports.logout = (req, res) => {
   req.logout();
-  req.json({message: 'You are logged out'});
+  res.json({ message: "You are logged out" });
   //res.redirect('/');
 };
