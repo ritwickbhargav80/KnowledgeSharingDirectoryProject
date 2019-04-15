@@ -53,7 +53,6 @@ app.use("/api/v1/resources", require("./routes/api/v1/resources"));
 app.use("/api/v1/contests", require("./routes/api/v1/contests"));
 app.use("/api/v1/blogs", require("./routes/api/v1/blogs"));
 app.use("/api/v1/admin", require("./routes/api/v1/admin"));
-const User = require("./models/User");
 // app.get("/deleteAdmin/:id", (req, res) => {
 //   Admin.deleteOne({ _id: req.params.id }, (err, done) => {
 //     if (err) {

@@ -8,25 +8,28 @@ require("dotenv").config();
 const Resource = require("../models/Resource");
 const Blog = require("../models/Blog");
 
+const authcheck = require("../config/authcheck");
+
 module.exports.index = (req, res) => {
-  Resource.find()
-    .sort({ date: "desc" })
-    .then(resource => {
-      Blog.find()
-        .sort({ date: "desc" })
-        .then(blog => {
-          axios
-            .get("https://contesttrackerapi.herokuapp.com")
-            .then(response => {
-              res.json({
-                resources: resource,
-                blogs: blog,
-                ongoing: response.data.result.ongoing,
-                upcoming: response.data.result.upcoming
-              });
-            });
-        });
-    });
+  res.json({ message: "homepage", userLoggedin: req.user });
+  // Resource.find()
+  //   .sort({ date: "desc" })
+  //   .then(resource => {
+  //     Blog.find()
+  //       .sort({ date: "desc" })
+  //       .then(blog => {
+  //         axios
+  //           .get("https://contesttrackerapi.herokuapp.com")
+  //           .then(response => {
+  //             res.json({
+  //               resources: resource,
+  //               blogs: blog,
+  //               ongoing: response.data.result.ongoing,
+  //               upcoming: response.data.result.upcoming
+  //             });
+  //           });
+  //       });
+  //   });
 };
 
 module.exports.about = (req, res) => {
@@ -49,7 +52,7 @@ module.exports.sendmessage = (req, res) => {
 };
 
 module.exports.allmessage = (req, res) => {
-//   console.log(Message);
+  //   console.log(Message);
   Message.find()
     .sort({ date: "desc" })
     .then(messages => {
