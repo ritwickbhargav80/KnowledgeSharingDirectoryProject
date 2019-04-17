@@ -1,17 +1,10 @@
 const mongoose = require("mongoose");
-const flash = require("connect-flash");
 const axios = require("axios");
 
 require("dotenv").config();
 
-//import schemas
-const Resource = require("../models/Resource");
-const Blog = require("../models/Blog");
-
-const authcheck = require("../config/authcheck");
-
 module.exports.index = (req, res) => {
-  res.json({ message: "homepage", userLoggedin: req.user });
+  res.json({ message: "KSD API" });
   // Resource.find()
   //   .sort({ date: "desc" })
   //   .then(resource => {
@@ -30,14 +23,6 @@ module.exports.index = (req, res) => {
   //           });
   //       });
   //   });
-};
-
-module.exports.about = (req, res) => {
-  res.json({ message: "404" });
-};
-
-module.exports.contact = (req, res) => {
-  res.json({ message: "404" });
 };
 
 module.exports.sendmessage = (req, res) => {

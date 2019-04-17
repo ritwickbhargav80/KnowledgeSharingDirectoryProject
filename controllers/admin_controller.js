@@ -13,13 +13,13 @@ const Message = require("../models/Message");
 //res.render('admin/login');
 //}
 
-module.exports.loginpost = (req, res, next) => {
-  passport.authenticate("local", {
-    successRedirect: "/api/v1/admin/",
-    failureRedirect: "/users/login",
-    failureFlash: true
-  })(req, res, next);
-};
+// module.exports.loginpost = (req, res, next) => {
+//   passport.authenticate("local", {
+//     successRedirect: "/api/v1/admin/",
+//     failureRedirect: "/users/login",
+//     failureFlash: true
+//   })(req, res, next);
+// };
 
 module.exports.index = (req, res) => {
   Message.find().then(message => {

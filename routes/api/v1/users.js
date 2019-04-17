@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
-require("../../../config/passportgoogle")(passport);
 const User = require("../../../models/User");
 const Admin = require("../../../models/Admin");
 
@@ -10,13 +8,8 @@ const userController = require("../../../controllers/user_controller");
 //authcheck
 const authcheck = require("../../../config/authcheck");
 
-//register route
-// router.post("/register", userController.registerprocess);
-//register process
-//router.post('/register',  authcheck.logggedInAlready, userController.registerprocess);
-//login route
 router.get(
-  "/login",
+  "/loginTokenGenerate",
   authcheck.loggedInAlready,
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
@@ -25,7 +18,7 @@ router.get(
   authcheck.loggedInAlready,
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    res.json(req.user);
+    res.redirect("http://localhost:7002?user=" + req.user.name);
   }
 );
 //for database: to be removed
