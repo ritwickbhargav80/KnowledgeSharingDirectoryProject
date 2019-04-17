@@ -7,6 +7,7 @@
 //load user model
 const User = require("../models/User");
 const Admin = require("../models/Admin");
+const jwt = require("jsonwebtoken");
 
 const createToken = require("../config/jwt");
 
@@ -20,15 +21,16 @@ module.exports.generateAndSendToken = (req, res) => {
   };
   User.findOne({ googleID: googleId }).then(user => {
     if (user) {
-      req.token = createToken(user);
+      token = createToken(user);
+      res.json({ token });
     } else {
       new User(newUser).save().then(user => {
-        req.token = createToken(user);
+        token = createToken(user);
         console.log("User Created and saved in database!");
+        res.json({ token });
       });
     }
   });
-  res.json({ token: req.token });
 };
 
 module.exports.receiveAndVerifyToken = (req, res, next) => {
@@ -48,8 +50,9 @@ module.exports.receiveAndVerifyToken = (req, res, next) => {
     });
     // Next middleware
     next();
+  } else {
+    res.json({ message: "Forbidden" });
   }
-  res.json({ message: "Forbidden" });
 };
 
 /*

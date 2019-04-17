@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-module.exports.createToken = user => {
+module.exports = createToken = user => {
   return jwt.sign(
     {
       //remember to change this auth.id
