@@ -16,94 +16,99 @@ const Setting = require("../models/Setting");
 module.exports.index = (req, res) => {
   Resource.find()
     .sort({ date: "desc" })
-    .then(result => {
+    .then(resources => {
       Setting.find({ for: "resources" }).then(settings => {
         res.json({
-          resources: result,
-          settings: settings
+          resources,
+          settings
         });
       });
     });
 };
 
 module.exports.view = (req, res) => {
-  Resource.findOne({ _id: req.params.id }).then(result => {
+  Resource.findOne({ _id: req.params.id }).then(resources => {
     Like.find({ for: req.params.id }).then(likes => {
       Comment.find({ for: req.params.id })
         .sort({ date: "desc" })
         .then(comments => {
-          res.json({ resources: result, likes: likes, comments: comments });
+          res.json({ resources, likes, comments });
         });
     });
   });
 };
 
-module.exports.search = (req, res) => {
-  var category = req.body.category;
-  var type = req.body.type;
-  if (category != undefined && type != undefined) {
-    Resource.find({ category: { $in: category }, type: { $in: type } })
+module.exports.filter = (req, res) => {
+  var category = String(req.body.category).toLowerCase();
+  var type = String(req.body.type).toLowerCase();
+  console.log(category, type);
+  if (category !== "undefined" && type != "undefined") {
+    Resource.find({
+      category: { $in: category },
+      type: { $in: type }
+    })
       .sort({ date: "desc" })
-      .then(result => {
-        res.json({ resources: result });
+      .then(resources => {
+        res.json({ resources });
       });
-  } else if (category != undefined && type == undefined) {
+  } else if (category !== "undefined" && type === "undefined") {
+    console.log(category, type);
     Resource.find({ category: { $in: category } })
       .sort({ date: "desc" })
-      .then(result => {
-        res.json({ resources: result });
+      .then(resources => {
+        res.json({ resources });
       });
-  } else if (category == undefined && type != undefined) {
+  } else if (category === "undefined" && type !== "undefined") {
     Resource.find({ type: { $in: type } })
       .sort({ date: "desc" })
-      .then(result => {
-        res.json({ resources: result });
+      .then(resources => {
+        res.json({ resources });
       });
   } else {
     Resource.find()
       .sort({ date: "desc" })
-      .then(result => {
-        res.json({ resources: result });
+      .then(resources => {
+        res.json({ resources });
       });
   }
 };
 
 module.exports.like = (req, res) => {
-  Like.create({ user: req.user.id, for: req.params.id }, (err, done) => {
+  Like.create({ user: req.auth.id, for: req.params.id }, (err, done) => {
     if (err) throw err;
     else {
-      res.json({ message: "you like the resource" });
+      res.json({ message: "Success" });
     }
   });
 };
 
 module.exports.comment = (req, res) => {
   Comment.create(
-    { for: req.params.id, comment: req.body.comment, user: req.user.name },
+    { for: req.params.id, comment: req.body.comment, user: req.auth.id },
     (err, done) => {
       if (err) throw err;
       else {
-        req.json({ message: "user commented" });
+        res.json({ message: "user commented" });
       }
     }
   );
 };
 
 module.exports.add = (req, res) => {
-  Setting.find({ for: "resources" }).then(result => {
-    res.json({ settings: result });
+  Setting.find({ for: "resources" }).then(settings => {
+    res.json({ settings });
   });
 };
 
 module.exports.addprocess = (req, res) => {
+  console.log(req.body);
+  console.log(req.auth.name);
   const { type, category, name, author, details } = req.body;
   if (!type || !category || !name || !author || !details) {
-    req.flash("error_msg", "All fields compulsary.");
-    res.redirect("back");
+    res.json({ message: "All fields compulsary." });
   }
   if (!req.file.url) {
-    req.flash("error_msg", "Please upload an image.");
-    res.redirect("back");
+    res.json({ message: "Please upload an image." });
   }
   Resource.create(
     {
@@ -113,13 +118,13 @@ module.exports.addprocess = (req, res) => {
       author: req.body.author,
       details: req.body.details,
       img: { id: req.file.public_id, url: req.file.url },
-      user: req.user.name
+      user: req.auth.name
     },
     (err, done) => {
       if (err) {
         req.json({ message: "Something went wrong." });
       } else {
-        req.json({ message: "Resource added successfully." });
+        res.json({ message: "Resource added successfully." });
       }
     }
   );
@@ -144,28 +149,30 @@ module.exports.updateprocess = (req, res) => {
     result.author = req.body.author;
     result.details = req.body.details;
     (result.img = { id: req.file.public_id, url: req.file.url }),
-      (result.user = req.user.name);
+      (result.user = req.auth.name);
     result.save().then(result => {
-      req.json({ message: "Resource updated successfully." });
+      res.json({ message: "Resource updated successfully." });
       //res.redirect('back');
     });
   });
 };
 
 module.exports.delete = (req, res) => {
-  Resource.findOne({ _id: req.params.id }).then(result => {
-    cloudinary.v2.api.delete_resources([result.img.id], (error, done) => {
+  Resource.findOne({ _id: req.params.id }).then(resource => {
+    // res.json({ resource });
+    cloudinary.v2.api.delete_resources([resource.img.id], (error, done) => {
       console.log(done);
     });
-  });
-  Resource.deleteOne({ _id: req.params.id }, (err, done) => {
-    if (err) {
-      req.json({ message: "Something went wrong." });
-      //res.redirect('back');
-    } else {
-      req.json({ message: "Resource deleted successfully." });
-      //res.redirect('back');
-    }
+
+    Resource.deleteOne({ _id: resource._id }, (err, done) => {
+      if (err) {
+        res.json({ message: "Something went wrong." });
+        //res.redirect('back');
+      } else {
+        res.json({ message: "Resource deleted successfully." });
+        //res.redirect('back');
+      }
+    });
   });
 };
 
