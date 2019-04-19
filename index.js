@@ -1,13 +1,9 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
 const path = require("path");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
-const ejs = require("ejs");
-// require("./config/passport")(passport);
 
 const app = express();
 const cors = require("cors");
@@ -42,34 +38,12 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use("/api/v1/", require("./routes/api/v1/index"));
-// app.use("/api/v1/users", require("./routes/api/v1/users"));
-// app.use("/api/v1/resources", require("./routes/api/v1/resources"));
-// app.use("/api/v1/contests", require("./routes/api/v1/contests"));
-// app.use("/api/v1/blogs", require("./routes/api/v1/blogs"));
-// app.use("/api/v1/admin", require("./routes/api/v1/admin"));
-// app.get("/deleteAdmin/:id", (req, res) => {
-//   Admin.deleteOne({ _id: req.params.id }, (err, done) => {
-//     if (err) {
-//       res.json({ message: "Something went wrong." });
-//       //res.redirect('back');
-//     } else {
-//       res.json({ message: "Resource deleted successfully." });
-//       //res.redirect('back');
-//     }
-//   });
-// });
-// app.get("/makeAdmin/:id", (req, res) => {
-//   User.updateOne({ _id: req.params.id }, { role: "admin" }, (err, done) => {
-//     if (err) {
-//       res.json({ message: "Something went wrong." });
-//       //res.redirect('back');
-//     } else {
-//       res.json({ message: "Resource deleted successfully." });
-//       //res.redirect('back');
-//     }
-//   });
-// });
+app.use("/api/v1/", require("./routes/api/v1/index"));
+app.use("/api/v1/users", require("./routes/api/v1/users"));
+app.use("/api/v1/resources", require("./routes/api/v1/resources"));
+app.use("/api/v1/contests", require("./routes/api/v1/contests"));
+app.use("/api/v1/blogs", require("./routes/api/v1/blogs"));
+app.use("/api/v1/admin", require("./routes/api/v1/admin"));
 
 app.listen(process.env.PORT, err => {
   if (err) {

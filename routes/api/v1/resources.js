@@ -1,4 +1,3 @@
-const express = require("express");
 const router = express.Router();
 
 //controller
@@ -6,7 +5,6 @@ const resourcesController = require("../../../controllers/resources_controller")
 
 //configurations
 const verifyAuth = require("../../../config/jwt");
-const authcheck = require("../../../config/authcheck");
 const imgupload = require("../../../config/imgupload");
 
 //resources index router
@@ -51,7 +49,6 @@ router.get(
   resourcesController.update
 );
 //update process
-//think about if user wants to update the resource but not the image and also vice versa
 router.post(
   "/update/:id",
   verifyAuth.receiveAndVerifyAdminToken,

@@ -1,4 +1,3 @@
-const express = require("express");
 const router = express.Router();
 
 //Controllers
@@ -6,7 +5,6 @@ const adminController = require("../../../controllers/admin_controller");
 
 //authcheck
 const verifyAuth = require("../../../config/jwt");
-const authcheck = require("../../../config/authcheck");
 
 router.get("/", verifyAuth.receiveAndVerifyAdminToken, adminController.index);
 //Users mgmt
@@ -15,8 +13,6 @@ router.get(
   verifyAuth.receiveAndVerifyAdminToken,
   adminController.users
 );
-//router.post('/delete-user/:id', verifyAuth.receiveAndVerifyAdminToken, adminController.deleteuser);
-//Settings
 router.get(
   "/settings",
   verifyAuth.receiveAndVerifyAdminToken,

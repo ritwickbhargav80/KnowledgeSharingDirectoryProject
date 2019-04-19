@@ -1,11 +1,5 @@
-const mongoose = require("mongoose");
-const flash = require("connect-flash");
-const axios = require("axios");
 const cloudinary = require("cloudinary");
 require("dotenv").config();
-
-//image upload functionality
-const imgupload = require("../config/imgupload");
 
 //import schemas
 const Resource = require("../models/Resource");
@@ -40,24 +34,6 @@ module.exports.view = async (req, res) => {
   } else {
     res.sendStatus(404);
   }
-  // Resource.findOne({ _id: req.params.id })
-  //   .populate("user")
-  //   .then(resources => {
-  //     Like.find({ for: req.params.id }).then(likes => {
-  //       let totalLikes = likes.length;
-  //       Comment.find({ for: req.params.id })
-  //         .populate("user")
-  //         .sort({ date: "desc" })
-  //         .then(comments => {
-  //           let totalComments = comments.length;
-  //           res.json({ resources, totalLikes, totalComments, comments });
-  //         });
-  //     });
-  //   })
-  //   .catch(err => {
-  //     console.log(err);
-  //     res.sendStatus(404);
-  //   });
 };
 
 module.exports.filter = (req, res) => {
@@ -141,8 +117,6 @@ module.exports.add = (req, res) => {
 };
 
 module.exports.addprocess = (req, res) => {
-  // console.log(req.body);
-  // console.log(req.auth.name);
   const { type, category, name, source, details } = req.body;
   if (!type || !category || !name || !source || !details) {
     res.json({ message: "All fields compulsary." });
@@ -193,7 +167,6 @@ module.exports.updateprocess = (req, res) => {
       (result.user = req.auth.id);
     result.save().then(result => {
       res.json({ message: "Resource updated successfully." });
-      //res.redirect('back');
     });
   });
 };
@@ -205,10 +178,8 @@ module.exports.delete = async (req, res) => {
       Resource.deleteOne({ _id: resource._id }, (err, done) => {
         if (err) {
           res.json({ message: "Something went wrong." });
-          //res.redirect('back');
         } else {
           res.json({ message: "Resource deleted successfully." });
-          //res.redirect('back');
         }
       });
     });

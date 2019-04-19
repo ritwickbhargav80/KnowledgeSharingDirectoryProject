@@ -1,4 +1,3 @@
-const express = require("express");
 const router = express.Router();
 
 //controller
@@ -6,7 +5,6 @@ const blogController = require("../../../controllers/blog_controller");
 
 //configurations
 const verifyAuth = require("../../../config/jwt");
-const authcheck = require("../../../config/authcheck");
 const imgupload = require("../../../config/imgupload");
 
 //blog index router

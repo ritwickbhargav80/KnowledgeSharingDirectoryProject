@@ -1,11 +1,5 @@
-const mongoose = require("mongoose");
-const flash = require("connect-flash");
-const axios = require("axios");
 const cloudinary = require("cloudinary");
 require("dotenv").config();
-
-//image upload functionality
-const imgupload = require("../config/imgupload");
 
 //import schemas
 const Blog = require("../models/Blog");
@@ -42,7 +36,6 @@ module.exports.view = async (req, res) => {
 
 module.exports.filter = (req, res) => {
   var category = String(req.body.category).toLowerCase();
-
   if (category !== "undefined") {
     Blog.find({ category: { $in: category } })
       .sort({ date: "desc" })
@@ -166,7 +159,6 @@ module.exports.delete = async (req, res) => {
       });
     });
   });
-
   //deleting all likes related to that resource
   await Like.deleteMany({ for: req.params.id });
   await Comment.deleteMany({ for: req.params.id });
