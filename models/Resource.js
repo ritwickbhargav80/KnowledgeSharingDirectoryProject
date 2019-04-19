@@ -3,10 +3,10 @@ const ResourcesSchema = mongoose.Schema({
 	type: { type: String, required: true },
 	category: { type: String, required: true },
 	name: { type: String, required: true },
-	author: { type: String, required: true },
+	source: { type: String, required: true },
 	details: { type: String, required: true },
 	img: {id: String, url: String },
-	user: { type: String, required: true },
+	user: { type: mongoose.Schema.Types.ObjectId, ref: "User" , required: true},
 	date: { type: Date, default: Date.now() }
 });
 

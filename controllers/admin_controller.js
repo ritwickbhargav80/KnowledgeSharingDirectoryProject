@@ -1,8 +1,6 @@
 //import resouces schema
 const mongoose = require("mongoose");
 const flash = require("connect-flash");
-const passport = require("passport");
-require("../config/passport")(passport);
 require("dotenv").config();
 
 const User = require("../models/User");
@@ -48,7 +46,7 @@ module.exports.deleteuser = (req,res)=>{
 }
 */
 module.exports.settings = (req, res) => {
-  Setting.find().then(result => {
+  Setting.find({}).then(result => {
     res.json({ settings: result });
   });
 };
@@ -59,17 +57,17 @@ module.exports.addsetting = (req, res) => {
     (err, entry) => {
       if (err) throw err;
       if (entry) {
-        req.json({ message: "Already Entered!" });
+        res.json({ message: "Already Entered!" });
         //res.redirect('/admin/settings');
       } else {
         Setting.create(
           { for: req.body.for, field: req.body.field, value: req.body.value },
           (err, done) => {
             if (err) {
-              req.json({ message: "Something went wrong." });
+              res.json({ message: "Something went wrong." });
               //res.redirect('/admin/settings');
             } else {
-              req.json({ message: "Added successfully." });
+              res.json({ message: "Added successfully." });
               //res.redirect('/admin/settings');
             }
           }
@@ -85,13 +83,15 @@ module.exports.deletesetting = (req, res) => {
     else {
       Setting.deleteOne({ _id: req.params.id }, (err, done) => {
         if (err) {
-          req.json({ message: "Something went wrong." });
+          res.json({ message: "Something went wrong." });
           //res.redirect('/admin/settings');
         } else {
-          req.json({ message: "Deleted successfully." });
+          res.json({ message: "Deleted successfully." });
           //res.redirect('/admin/settings');
         }
       });
     }
   });
 };
+
+// add delete user, resource, blog and there respective references in the database

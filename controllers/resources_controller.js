@@ -14,6 +14,7 @@ const Comment = require("../models/Comment");
 const Setting = require("../models/Setting");
 
 module.exports.index = (req, res) => {
+  //additional feature can be showing total likes and comments on the all resource page and also user name who has added that resource
   Resource.find()
     .sort({ date: "desc" })
     .then(resources => {
@@ -26,23 +27,44 @@ module.exports.index = (req, res) => {
     });
 };
 
-module.exports.view = (req, res) => {
-  Resource.findOne({ _id: req.params.id }).then(resources => {
-    Like.find({ for: req.params.id }).then(likes => {
-      Comment.find({ for: req.params.id })
-        .sort({ date: "desc" })
-        .then(comments => {
-          res.json({ resources, likes, comments });
-        });
-    });
-  });
+module.exports.view = async (req, res) => {
+  const resources = await Resource.findOne({ _id: req.params.id }).populate(
+    "user"
+  );
+  const likes = await Like.find({ for: req.params.id });
+  const comments = await Comment.find({ for: req.params.id }).populate("user");
+  let totalLikes = likes.length,
+    totalComments = comments.length;
+  if (resources) {
+    res.json({ resources, totalLikes, totalComments, comments });
+  } else {
+    res.sendStatus(404);
+  }
+  // Resource.findOne({ _id: req.params.id })
+  //   .populate("user")
+  //   .then(resources => {
+  //     Like.find({ for: req.params.id }).then(likes => {
+  //       let totalLikes = likes.length;
+  //       Comment.find({ for: req.params.id })
+  //         .populate("user")
+  //         .sort({ date: "desc" })
+  //         .then(comments => {
+  //           let totalComments = comments.length;
+  //           res.json({ resources, totalLikes, totalComments, comments });
+  //         });
+  //     });
+  //   })
+  //   .catch(err => {
+  //     console.log(err);
+  //     res.sendStatus(404);
+  //   });
 };
 
 module.exports.filter = (req, res) => {
   var category = String(req.body.category).toLowerCase();
   var type = String(req.body.type).toLowerCase();
-  console.log(category, type);
-  if (category !== "undefined" && type != "undefined") {
+
+  if (category !== "undefined" && type !== "undefined") {
     Resource.find({
       category: { $in: category },
       type: { $in: type }
@@ -73,25 +95,43 @@ module.exports.filter = (req, res) => {
   }
 };
 
-module.exports.like = (req, res) => {
-  Like.create({ user: req.auth.id, for: req.params.id }, (err, done) => {
-    if (err) throw err;
-    else {
-      res.json({ message: "Success" });
+module.exports.like = async (req, res) => {
+  const isResource = await Resource.findOne({ _id: req.params.id });
+  if (isResource) {
+    const alreadyLiked = await Like.findOne({
+      user: req.auth.id,
+      for: req.params.id
+    });
+    if (alreadyLiked) {
+      res.json({ message: "Already Liked once!" });
+    } else {
+      Like.create({ user: req.auth.id, for: req.params.id }, (err, done) => {
+        if (err) throw err;
+        else {
+          res.json({ message: "Success" });
+        }
+      });
     }
-  });
+  } else {
+    res.sendStatus(404);
+  }
 };
 
-module.exports.comment = (req, res) => {
-  Comment.create(
-    { for: req.params.id, comment: req.body.comment, user: req.auth.id },
-    (err, done) => {
-      if (err) throw err;
-      else {
-        res.json({ message: "user commented" });
+module.exports.comment = async (req, res) => {
+  const isResource = await Resource.findOne({ _id: req.params.id });
+  if (isResource) {
+    Comment.create(
+      { for: req.params.id, comment: req.body.comment, user: req.auth.id },
+      (err, done) => {
+        if (err) throw err;
+        else {
+          res.json({ message: "user commented" });
+        }
       }
-    }
-  );
+    );
+  } else {
+    res.sendStatus(404);
+  }
 };
 
 module.exports.add = (req, res) => {
@@ -101,10 +141,10 @@ module.exports.add = (req, res) => {
 };
 
 module.exports.addprocess = (req, res) => {
-  console.log(req.body);
-  console.log(req.auth.name);
-  const { type, category, name, author, details } = req.body;
-  if (!type || !category || !name || !author || !details) {
+  // console.log(req.body);
+  // console.log(req.auth.name);
+  const { type, category, name, source, details } = req.body;
+  if (!type || !category || !name || !source || !details) {
     res.json({ message: "All fields compulsary." });
   }
   if (!req.file.url) {
@@ -115,14 +155,14 @@ module.exports.addprocess = (req, res) => {
       type: req.body.type,
       category: req.body.category,
       name: req.body.name,
-      author: req.body.author,
+      source: req.body.source,
       details: req.body.details,
       img: { id: req.file.public_id, url: req.file.url },
-      user: req.auth.name
+      user: req.auth.id
     },
     (err, done) => {
       if (err) {
-        req.json({ message: "Something went wrong." });
+        res.json({ message: "Something went wrong." });
       } else {
         res.json({ message: "Resource added successfully." });
       }
@@ -140,16 +180,17 @@ module.exports.update = (req, res) => {
 
 module.exports.updateprocess = (req, res) => {
   Resource.findOne({ _id: req.params.id }).then(result => {
+    // we are delete just for the sake of it because we already get the image in before GET  route and it gets reuploaded
     cloudinary.v2.api.delete_resources([result.img.id], (error, done) => {
       console.log(done);
     });
     result.type = req.body.type;
     result.category = req.body.category;
     result.name = req.body.name;
-    result.author = req.body.author;
+    result.source = req.body.source;
     result.details = req.body.details;
     (result.img = { id: req.file.public_id, url: req.file.url }),
-      (result.user = req.auth.name);
+      (result.user = req.auth.id);
     result.save().then(result => {
       res.json({ message: "Resource updated successfully." });
       //res.redirect('back');
@@ -157,23 +198,24 @@ module.exports.updateprocess = (req, res) => {
   });
 };
 
-module.exports.delete = (req, res) => {
+module.exports.delete = async (req, res) => {
   Resource.findOne({ _id: req.params.id }).then(resource => {
-    // res.json({ resource });
     cloudinary.v2.api.delete_resources([resource.img.id], (error, done) => {
       console.log(done);
-    });
-
-    Resource.deleteOne({ _id: resource._id }, (err, done) => {
-      if (err) {
-        res.json({ message: "Something went wrong." });
-        //res.redirect('back');
-      } else {
-        res.json({ message: "Resource deleted successfully." });
-        //res.redirect('back');
-      }
+      Resource.deleteOne({ _id: resource._id }, (err, done) => {
+        if (err) {
+          res.json({ message: "Something went wrong." });
+          //res.redirect('back');
+        } else {
+          res.json({ message: "Resource deleted successfully." });
+          //res.redirect('back');
+        }
+      });
     });
   });
+  //deleting all likes related to that resource
+  await Like.deleteMany({ for: req.params.id });
+  await Comment.deleteMany({ for: req.params.id });
 };
 
 module.exports.all = (req, res) => {

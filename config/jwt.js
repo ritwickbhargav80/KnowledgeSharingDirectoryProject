@@ -24,7 +24,7 @@ module.exports.receiveAndVerifyToken = (req, res, next) => {
     //verify the token
     jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
       if (err) {
-        res.json({ message: "Forbidden" });
+        res.status(403).json({ message: "Forbidden" });
       } else {
         req.auth = authData;
       }
@@ -32,7 +32,7 @@ module.exports.receiveAndVerifyToken = (req, res, next) => {
     // Next middleware
     next();
   } else {
-    res.json({ message: "Forbidden" });
+    res.status(403).json({ message: "Forbidden" });
   }
 };
 
@@ -46,19 +46,19 @@ module.exports.receiveAndVerifyAdminToken = (req, res, next) => {
     //verify the token
     jwt.verify(req.token, process.env.SECRET_KEY, (err, authData) => {
       if (err) {
-        res.json({ message: "Forbidden" });
+        res.status(403).json({ message: "Forbidden" });
       } else {
         if (authData.role === "admin") {
           req.auth = authData;
           next();
         } else {
-          res.json({ message: "Admin Login Required" });
+          res.status(403).json({ message: "Admin Login Required" });
         }
       }
     });
     // Next middleware
     //   next();
   } else {
-    res.json({ message: "Forbidden" });
+    res.status(403).json({ message: "Forbidden" });
   }
 };

@@ -51,6 +51,7 @@ router.get(
   resourcesController.update
 );
 //update process
+//think about if user wants to update the resource but not the image and also vice versa
 router.post(
   "/update/:id",
   verifyAuth.receiveAndVerifyAdminToken,

@@ -4,7 +4,7 @@ const BlogsSchema = mongoose.Schema({
 	title: { type: String, required: true },
 	details: { type: String, required: true },
 	img: {id: String, url: String },
-	user: { type: String, required: true },
+	user: { type: mongoose.Schema.Types.ObjectId, ref: "User" , required: true},
 	date: { type: Date, default: Date.now() }
 });
 
