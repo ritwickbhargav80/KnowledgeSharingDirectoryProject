@@ -1,4 +1,4 @@
-const router = express.Router();
+const router = require("express").Router();
 
 //controller
 const resourcesController = require("../../../controllers/resources_controller");
