@@ -8,7 +8,5 @@ router.get("/", indexController.index);
 //contact us post
 router.post("/contact", indexController.sendmessage);
 
-router.get("/allmessage", indexController.allmessage);
-
 //export router
 module.exports = router;

@@ -5,11 +5,9 @@ const User = require("../models/User");
 const Setting = require("../models/Setting");
 const Message = require("../models/Message");
 
-module.exports.index = (req, res) => {
-  Message.find().then(message => {
-    User.find().then(user => {
-      res.json({ messages: message, users: user });
-    });
+module.exports.messages = (req, res) => {
+  Message.find().then(messages => {
+    res.json({ messages });
   });
 };
 

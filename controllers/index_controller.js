@@ -11,11 +11,3 @@ module.exports.sendmessage = (req, res) => {
     }
   });
 };
-
-module.exports.allmessage = (req, res) => {
-  Message.find()
-    .sort({ date: "desc" })
-    .then(messages => {
-      res.json(messages);
-    });
-};

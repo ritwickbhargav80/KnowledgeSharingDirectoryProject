@@ -41,8 +41,8 @@ app.use((req, res, next) => {
 app.use("/api/v1/", require("./routes/api/v1/index"));
 app.use("/api/v1/users", require("./routes/api/v1/users"));
 app.use("/api/v1/resources", require("./routes/api/v1/resources"));
-app.use("/api/v1/contests", require("./routes/api/v1/contests"));
 app.use("/api/v1/blogs", require("./routes/api/v1/blogs"));
+app.use("/api/v1/contests", require("./routes/api/v1/contests"));
 app.use("/api/v1/admin", require("./routes/api/v1/admin"));
 
 app.listen(process.env.PORT, err => {

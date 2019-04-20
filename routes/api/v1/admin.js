@@ -6,7 +6,7 @@ const adminController = require("../../../controllers/admin_controller");
 //authcheck
 const verifyAuth = require("../../../config/jwt");
 
-router.get("/", verifyAuth.receiveAndVerifyAdminToken, adminController.index);
+router.get("/messages", verifyAuth.receiveAndVerifyAdminToken, adminController.messages);
 //Users mgmt
 router.get(
   "/users",
