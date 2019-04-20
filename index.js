@@ -17,7 +17,7 @@ app.use(
   })
 );
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cookieParser());
@@ -45,7 +45,7 @@ app.use("/api/v1/blogs", require("./routes/api/v1/blogs"));
 app.use("/api/v1/contests", require("./routes/api/v1/contests"));
 app.use("/api/v1/admin", require("./routes/api/v1/admin"));
 
-app.listen(process.env.PORT, err => {
+app.listen(7002, err => {
   if (err) {
     console.log("Error in running server");
     return;
