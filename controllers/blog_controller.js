@@ -34,21 +34,17 @@ module.exports.view = async (req, res) => {
   }
 };
 
-module.exports.filter = (req, res) => {
-  var category = String(req.body.category).toLowerCase();
-  if (category !== "undefined") {
-    Blog.find({ category: { $in: category } })
-      .sort({ date: "desc" })
-      .then(blogs => {
-        res.json({ blogs });
-      });
-  } else {
-    Blog.find()
-      .sort({ date: "desc" })
-      .then(blogs => {
-        res.json({ blogs });
-      });
+module.exports.filter = async (req, res) => {
+  console.log(req.body);
+  let categories = Array(req.body);
+  let blog = [];
+  for (let i = 0; i < categories.length; i++) {
+    blog = await Blog.find({ category: { $in: categories[i] } });
   }
+  if (blog.length === 0) {
+    blog = await Blog.find({});
+  }
+  res.json(blog);
 };
 
 module.exports.like = async (req, res) => {
