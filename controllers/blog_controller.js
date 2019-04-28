@@ -24,7 +24,9 @@ module.exports.index = (req, res) => {
 module.exports.view = async (req, res) => {
   const blogs = await Blog.findOne({ _id: req.params.id }).populate("user");
   const likes = await Like.find({ for: req.params.id });
-  const comments = await Comment.find({ for: req.params.id }).populate("user");
+  const comments = await Comment.find({ for: req.params.id })
+    .sort({ date: "desc" })
+    .populate("user");
   let totalLikes = likes.length,
     totalComments = comments.length;
   if (blogs) {
