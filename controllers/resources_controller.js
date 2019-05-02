@@ -39,10 +39,12 @@ module.exports.view = async (req, res) => {
 };
 
 module.exports.filter = async (req, res) => {
+
   let { byCat, byType } = req.body;
   let categories = byCat; // ['web','android']
   let types = byType; // ['book','article']
 
+  console.log(categories, types);
   if (categories.length === 0) {
     resource = await Resource.find({ type: { $in: types } });
   } else if (types.length === 0) {
@@ -53,7 +55,6 @@ module.exports.filter = async (req, res) => {
     });
   }
 
-  // console.log(categories, types);
   if (resource.length === 0) {
     // console.log("this ran");
     res.json({ message: "No Match" });
