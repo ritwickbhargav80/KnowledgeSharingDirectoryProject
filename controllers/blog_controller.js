@@ -37,12 +37,8 @@ module.exports.view = async (req, res) => {
 };
 
 module.exports.filter = async (req, res) => {
-  console.log(req.body);
-  let categories = Array(req.body);
-  let blog = [];
-  for (let i = 0; i < categories.length; i++) {
-    blog = await Blog.find({ category: { $in: categories[i] } });
-  }
+  let categories = req.body; // ['web','android']
+  blog = await Blog.find({ category: { $in: categories } });
   if (blog.length === 0) {
     blog = await Blog.find({});
   }

@@ -38,38 +38,27 @@ module.exports.view = async (req, res) => {
   }
 };
 
-module.exports.filter = (req, res) => {
-  var category = String(req.body.category).toLowerCase();
-  var type = String(req.body.type).toLowerCase();
+module.exports.filter = async (req, res) => {
+  let { byCat, byType } = req.body;
+  let categories = byCat; // ['web','android']
+  let types = byType; // ['book','article']
 
-  if (category !== "undefined" && type !== "undefined") {
-    Resource.find({
-      category: { $in: category },
-      type: { $in: type }
-    })
-      .sort({ date: "desc" })
-      .then(resources => {
-        res.json({ resources });
-      });
-  } else if (category !== "undefined" && type === "undefined") {
-    console.log(category, type);
-    Resource.find({ category: { $in: category } })
-      .sort({ date: "desc" })
-      .then(resources => {
-        res.json({ resources });
-      });
-  } else if (category === "undefined" && type !== "undefined") {
-    Resource.find({ type: { $in: type } })
-      .sort({ date: "desc" })
-      .then(resources => {
-        res.json({ resources });
-      });
+  if (categories.length === 0) {
+    resource = await Resource.find({ type: { $in: types } });
+  } else if (types.length === 0) {
+    resource = await Resource.find({ category: { $in: categories } });
   } else {
-    Resource.find()
-      .sort({ date: "desc" })
-      .then(resources => {
-        res.json({ resources });
-      });
+    resource = await Resource.find({
+      $and: [{ category: { $in: categories } }, { type: { $in: types } }]
+    });
+  }
+
+  // console.log(categories, types);
+  if (resource.length === 0) {
+    // console.log("this ran");
+    res.json({ message: "No Match" });
+  } else {
+    res.json(resource);
   }
 };
 
