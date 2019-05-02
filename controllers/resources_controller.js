@@ -44,7 +44,7 @@ module.exports.filter = async (req, res) => {
   let categories = byCat; // ['web','android']
   let types = byType; // ['book','article']
 
-  console.log(categories, types);
+  // console.log(categories, types);
   if (categories.length === 0) {
     resource = await Resource.find({ type: { $in: types } });
   } else if (types.length === 0) {
