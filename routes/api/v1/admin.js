@@ -1,24 +1,38 @@
-const express = require('express');
-const router = express.Router();
+const router = require("express").Router();
 
 //Controllers
-const adminController = require('../../../controllers/admin_controller');
+const adminController = require("../../../controllers/admin_controller");
 
 //authcheck
-const authcheck = require('../../../config/authcheck');
+const verifyAuth = require("../../../config/jwt");
 
-//admin login
-// router.get('/login', authcheck.logggedInAlready, adminController.login);
-router.post('/login', adminController.loginpost);
-//index Router-admin dashboard
-router.get('/', authcheck.isAdmin, adminController.index);
+router.get("/messages", verifyAuth.receiveAndVerifyAdminToken, adminController.messages);
 //Users mgmt
-router.get('/users', authcheck.isAdmin, adminController.users);
-//router.post('/delete-user/:id', authcheck.isAdmin, adminController.deleteuser);
-//Settings
-router.get('/settings', authcheck.isAdmin, adminController.settings);
-router.post('/add-setting', authcheck.isAdmin, adminController.addsetting);
-router.post('/delete-setting/:id', authcheck.isAdmin, adminController.deletesetting);
+router.get(
+  "/users",
+  verifyAuth.receiveAndVerifyAdminToken,
+  adminController.users
+);
+router.get(
+  "/settings",
+  verifyAuth.receiveAndVerifyAdminToken,
+  adminController.settings
+);
+router.post(
+  "/add-setting",
+  verifyAuth.receiveAndVerifyAdminToken,
+  adminController.addsetting
+);
+router.get(
+  "/delete-setting/:id",
+  verifyAuth.receiveAndVerifyAdminToken,
+  adminController.deletesetting
+);
 
 //export router
 module.exports = router;
+
+// How to be an admin:
+// 1. Change role from student to admin in database
+// 2. Logout from the browser to remove previously stored token.
+// 3. Login again to generate new token with admin previleges

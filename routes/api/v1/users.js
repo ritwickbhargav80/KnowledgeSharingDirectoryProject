@@ -1,25 +1,17 @@
-const express = require('express');
-const router = express.Router();
-const passport = require('passport');
-require('../../../config/passport')(passport);
-
+const router = require("express").Router();
 
 //controller
-const userController = require('../../../controllers/user_controller');
-//authcheck
-const authcheck = require('../../../config/authcheck');
+const userController = require("../../../controllers/user_controller");
+//token auth check
+const verifyAuth = require("../../../config/jwt");
 
-//register route
-//router.get('/register',  authcheck.logggedInAlready, userController.register);
-//register process
-//router.post('/register',  authcheck.logggedInAlready, userController.registerprocess);
-//login route
-router.get('/login', passport.authenticate('google', {scope: ['profile', 'email']}));
-router.get('/login/callback', passport.authenticate('google', { failureRedirect: '/' }),(req, res) => {
-    res.redirect('/');
-  });
-//logout route
-router.get('/logout',  userController.logout);
+//generate token to store in browser when user try to login everytime
+router.post("/loginTokenGenerate", userController.generateAndSendToken);
+
+//protect routes via token verfication
+router.get("/protected", verifyAuth.receiveAndVerifyToken, (req, res) => {
+  res.json(req.auth);
+});
 
 //export router
 module.exports = router;
