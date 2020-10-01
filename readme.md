@@ -8,4 +8,4 @@ So, CollegeKnowledge helps you to get resources for your projects and upcoming a
 
 ---
 
-Developed by [Developers Student Clubs KIET](http://dsckiet.tech)
+Developed by [Developers Student Clubs KIET](https://dsckiet.com)
